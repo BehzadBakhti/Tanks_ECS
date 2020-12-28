@@ -2,7 +2,7 @@
 using Unity.Entities;
 using UnityEngine;
 
-[UpdateInGroup(typeof(FixedStepSimulationSystemGroup), OrderLast = true)]
+[UpdateInGroup(typeof(SimulationSystemGroup), OrderLast = true)]
 
 public class InputResetSystem : SystemBase
 {
