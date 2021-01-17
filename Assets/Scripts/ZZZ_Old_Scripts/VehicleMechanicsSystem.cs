@@ -24,10 +24,10 @@ public class VehicleMechanicsSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        Dependency = m_BuildPhysicsWorldSystem.GetOutputDependency();
+        //Dependency = m_BuildPhysicsWorldSystem.GetOutputDependency();
 
         // update vehicle properties first
-        Dependency = Entities
+        Entities
             .WithName("PrepareVehiclesJob")
             .WithBurst()
             .ForEach((
@@ -41,9 +41,9 @@ public class VehicleMechanicsSystem : SystemBase
                 float3 worldUp = math.mul(rotation.Value, math.up());
                 vehicleBody.SlopeSlipFactor = math.pow(math.abs(math.dot(worldUp, math.up())), 4f);
             })
-            .Schedule(Dependency);
+            .Schedule(/*Dependency*/);
 
-        Dependency.Complete();
+      //  Dependency.Complete();
 
         // this sample makes direct modifications to impulses between BuildPhysicsWorld and StepPhysicsWorld
         // we thus use PhysicsWorldExtensions rather than modifying component data, since they have already been consumed by BuildPhysicsWorld
