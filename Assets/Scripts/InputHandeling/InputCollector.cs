@@ -23,10 +23,17 @@ public class InputCollector : MonoBehaviour
         collector.mouseUp0 = Input.GetMouseButtonUp(0) ? collector.mouseUp0 + 1 : collector.mouseUp0;
         collector.mouseUp1 = Input.GetMouseButtonUp(1) ? collector.mouseUp1 + 1 : collector.mouseUp1;
 
+
+
         collector.horizontal = Input.GetAxis("Horizontal");
         collector.vertical = Input.GetAxis("Vertical");
+        var rightNeg = Input.GetKey(KeyCode.J) ? -1 : 0;
+        var rightPositive = Input.GetKey(KeyCode.L) ? 1 : 0;
+        collector.rightHorizontal = rightPositive + rightNeg;
 
-      
+        var rightDown = Input.GetKey(KeyCode.J) ? -1 : 0;
+        var rightUp = Input.GetKey(KeyCode.L) ? 1 : 0;
+        collector.rightVertical = rightDown + rightUp;
         collector.mouse0 = Input.GetMouseButton(0);
         collector.mouse1 = Input.GetMouseButton(1);
 

@@ -11,7 +11,8 @@ public class InputResetSystem : SystemBase
     protected override void OnCreate()
     {
         base.OnCreate();
-        _isDragging = new NativeArray<bool>(1, Allocator.Persistent);
+        _isDragging = new NativeArray<bool>(2, Allocator.Persistent);
+        
     }
 
     protected override void OnUpdate()
@@ -21,9 +22,13 @@ public class InputResetSystem : SystemBase
         Entities.ForEach((ref InputCollectorComponent inputCollector) =>
         {
             isDragging[0] = inputCollector.mouse0;
-
-            inputCollector = new InputCollectorComponent { mouse0 = isDragging[0] };
-        }).ScheduleParallel();
+            isDragging[1] = inputCollector.mouse1;
+            inputCollector = new InputCollectorComponent
+            {
+                mouse0 = isDragging[0] ,
+                mouse1 = isDragging[1]
+            };
+        }).Schedule();
     }
 
     protected override void OnDestroy()
@@ -45,6 +50,7 @@ public struct InputCollectorComponent : IComponentData
     public int mouseDown1, mouseUp1;
     public bool space;
     public float horizontal, vertical, mouseX, mouseY;
+    public float rightHorizontal, rightVertical;
 }
 
 

@@ -16,7 +16,7 @@ namespace Assets.Scripts.TankController
     {
         protected override void OnUpdate()
         {
-            var input = GetSingleton<InputCollectorComponent>();
+            var input = GetEntityQuery(typeof(InputCollectorComponent)).GetSingleton<InputCollectorComponent>();
             var inZ = input.vertical;
             var breaking = input.space;
             var dt = Time.DeltaTime;

@@ -8,10 +8,10 @@ using Unity.Mathematics;
 
 struct VehicleInput : IComponentData
 {
- 
+
     public float2 Steering;
     public float Throttle;
-   // positive to change to a subsequent vehicle, negative to change to a previous one
+    // positive to change to a subsequent vehicle, negative to change to a previous one
 }
 
 //[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
@@ -20,13 +20,14 @@ class VehicleInputHandlingSystem : SystemBase
     protected override void OnUpdate()
     {
         //var input = GetSingleton<VehicleInput>();
-        var input = GetSingleton<InputCollectorComponent>();
+        var input = GetEntityQuery(typeof(InputCollectorComponent)).GetSingleton<InputCollectorComponent>();
+        float x = input.horizontal;
+        float a = input.vertical;
+
         Entities
             .WithName("ActiveVehicleInputHandlingJob")
             .ForEach((ref VehicleSpeed speed, ref VehicleSteering steering) =>
             {
-                float x = input.horizontal;
-                float a = input.vertical;
 
 
                 var newSpeed = a * speed.TopSpeed;
@@ -36,8 +37,8 @@ class VehicleInputHandlingSystem : SystemBase
                 var newSteeringAngle = x * steering.MaxSteeringAngle;
                 steering.DesiredSteeringAngle = math.lerp(steering.DesiredSteeringAngle, newSteeringAngle, steering.Damping);
 
-          
-            }).ScheduleParallel();
+
+            }).Schedule();
     }
 }
 
